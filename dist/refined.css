@@ -58,3 +58,6 @@ button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #4e
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;animation-iteration-count:1!important}.button:hover,.overview-card:hover{transform:none}}
 
 #opc .opc-card .support-list,#opc .opc-card .support-list div:last-child{margin-bottom:0}
+
+/* Shared-password entry */
+.profit-gate{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}.profit-form{max-width:580px;width:100%;justify-self:end}.profit-form h3{margin:20px 0 28px}.profit-form input{display:block;width:100%;box-sizing:border-box;padding:16px;border:1px solid #cbdcff;border-radius:8px;font:inherit;background:#f8faff;color:#102e56}.profit-form .button{margin-top:20px;width:100%;justify-content:center}.profit-status{color:#b42318;min-height:1.5em;font-size:14px}.profit-form .button:disabled{opacity:.65;cursor:wait}#profit-lock{margin-top:24px}#settlement{scroll-margin-top:88px}@media(max-width:760px){.profit-gate{grid-template-columns:1fr;gap:28px}.profit-form{max-width:none}}

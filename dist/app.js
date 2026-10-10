@@ -28,20 +28,6 @@ const projectTabs = [...document.querySelectorAll('.project-tabs [role="tab"]')]
 wireTabs(projectTabs, tab => { projectTabs.forEach(t => { document.getElementById(t.getAttribute('aria-controls')).hidden = t !== tab; }); });
 const pathTabs = [...document.querySelectorAll('.path-option')];
 wireTabs(pathTabs, tab => { const p = content.paths[tab.dataset.path]; document.getElementById('path-result').setAttribute('aria-labelledby', tab.id); document.getElementById('path-label').textContent = p.label; document.getElementById('path-title').textContent = p.title; document.getElementById('path-description').textContent = p.description; const link = document.getElementById('path-link'); link.href = p.href; link.textContent = p.button; });
-const orderType = document.getElementById('order-type');
-const amount = document.getElementById('order-amount');
-const refund = document.getElementById('refund-amount');
-const orderDefaults = { basic: { amount: 2980, rate: 30 }, deep: { amount: 39800, rate: 30 }, opc: { amount: 19800, rate: 25 }, bundle: { amount: 29800, rate: 25 }, self: { amount: 10000, rate: 30 } };
-function calculate() {
-  const a = Number(amount.value); const r = Number(refund.value); const valid = amount.value.trim() !== '' && refund.value.trim() !== '' && Number.isFinite(a) && Number.isFinite(r) && a >= 0 && r >= 0 && r <= a && a <= 1000000000;
-  const error = document.getElementById('calc-error'); error.hidden = valid; document.getElementById('calc-results').hidden = !valid;
-  if (!valid) { error.textContent = '请填写有效金额：到账与退款不得为负，退款不得超过到账金额。'; return; }
-  const baseCents = Math.round(a * 100) - Math.round(r * 100); const rate = orderDefaults[orderType.value].rate; const commissionCents = Math.round(baseCents * rate / 100);
-  const format = cents => (cents / 100).toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  document.getElementById('commission-value').textContent = format(commissionCents); document.getElementById('retained-value').textContent = format(baseCents - commissionCents); document.getElementById('commission-rate').textContent = rate + '%';
-}
-orderType.addEventListener('change', () => { amount.value = orderDefaults[orderType.value].amount; refund.value = 0; calculate(); });
-amount.addEventListener('input', calculate); refund.addEventListener('input', calculate); calculate();
 const dialog = document.getElementById('project-dialog'); let lastTrigger = null;
 document.addEventListener('click', e => { const trigger = e.target.closest('[data-detail]'); if (!trigger) return; const data = content.details[trigger.dataset.detail]; if (!data) return; lastTrigger = trigger; document.getElementById('dialog-kicker').textContent = data.kicker; document.getElementById('dialog-title').textContent = data.title; document.getElementById('dialog-description').textContent = data.description; document.getElementById('dialog-content').replaceChildren(...data.blocks.map(([title, text]) => { const block = document.createElement('div'); block.className = 'detail-block'; const h = document.createElement('h3'); h.textContent = title; const p = document.createElement('p'); p.textContent = text; block.append(h, p); return block; })); dialog.showModal(); });
 document.querySelector('.dialog-close').addEventListener('click', () => dialog.close()); document.querySelector('.dialog-done').addEventListener('click', () => dialog.close());
